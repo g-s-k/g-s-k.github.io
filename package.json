@@ -7,6 +7,6 @@
     "url":  "https://github.com/g-s-k/g-s-k.github.io.git"
   },
   "dependencies": {
-    "p5" : "https://github.com/processing/p5.js.git"
+    "p5":   "0.6.0"
   }
 }
