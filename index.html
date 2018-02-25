@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="text/html;charset=utf-8" http-equiv="content-type" name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
-    <meta content="utf-8" http-equiv="encoding">
+    <meta charset="UTF-8" />
+    <title>george's website</title>
+    <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0 />
+    <meta name="description" content="p5 art and also my resume" />
+    <meta name="keywords" content="website,cool,nice,fancy,beautiful" />
+    <meta name="author" content="George Kaplan" />
     <style>
       body {
         background-color: black;
         padding: 0;
         margin: 0;
       }
+      .navbar {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .nav-item {
+        display: inline;
+      }
       a {
         color: #ddd;
+      }
+      .nav-link {
+        text-decoration: none;
+        padding: 10px;
+        text-align: center;
       }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
@@ -18,7 +35,14 @@
   </head>
   <body>
     <div class="header">
-      <a href="resume/Kaplan_George_resume.pdf">resume</a>
+      <ul class="navbar">
+        <li class="nav-item">
+          <a class="nav-link" href="resume/Kaplan_George_resume.pdf">resume</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/g-s-k">github</a>
+        </li>
+      </ul>
     </div>
     <script>
       document.documentElement.style.overflow = "hidden";
