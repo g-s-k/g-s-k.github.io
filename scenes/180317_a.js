@@ -39,8 +39,10 @@ function setup() {
       var randThing = Math.random();
       if (randThing > 0.95) {
         tmpList.push(new Block(0, 1, 1));
-      } else if (randThing < 0.05) {
+      } else if (randThing > 0.90) {
         tmpList.push(new Block(0.6, 1, 1));
+      } else if (randThing > 0.85) {
+        tmpList.push(new Block(0.15, 1, 1));
       } else {
         tmpList.push(new Block(0, 0, 1));
       }
