@@ -34,16 +34,24 @@ function setup() {
   }
 
   for (var i = 0; i < ptsX - 1; i++) {
+    var tmpList = [];
     for (var j = 0; j < ptsY - 1; j++) {
-      //
+      var randThing = Math.random();
+      if (randThing > 0.95) {
+        tmpList.push(new Block(0, 1, 1));
+      } else if (randThing < 0.05) {
+        tmpList.push(new Block(0.6, 1, 1));
+      } else {
+        tmpList.push(new Block(0, 0, 1));
+      }
     }
+    blocksMeta.push(tmpList);
   }
 }
 
 function draw() {
   background(0);
   strokeWeight(2);
-  stroke(1, 0.5);
   noFill();
   rectMode(CORNERS);
   for (var i = 0; i < ptsList.length - 1; i++) {
@@ -52,6 +60,7 @@ function draw() {
       var topRight = ptsList[i + 1][j].p();
       var botLeft  = ptsList[i][j + 1].p();
       var botRight = ptsList[i + 1][j + 1].p();
+      stroke(blocksMeta[i][j].c);
       rect(max(topLeft.x,  botLeft.x) + blockPad / 2,
            max(topLeft.y,  topRight.y) + blockPad / 2,
            min(topRight.x, botRight.x) - blockPad / 2,
@@ -82,5 +91,9 @@ function Pt(x, y, xlock, ylock) {
     return new p5.Vector(this.p0.x * windowWidth,
                          this.p0.y * windowHeight).add(dvec);
   };
+}
+
+function Block(h, s, v) {
+  this.c = color(h, s, v, 0.5);
 }
 
