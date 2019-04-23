@@ -20,6 +20,7 @@
          flex-direction: column;
          overflow: hidden;
          font-size: 12pt;
+         color: #ddd;
      }
      ul {
          list-style: none;
@@ -41,7 +42,6 @@
      }
      body > svg {
          flex: 1;
-         color: #ddd;
          fill: #ddd;
      }
     </style>
@@ -60,63 +60,86 @@
         </li>
       </ul>
     </header>
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <defs>
-            <radialGradient id="ShadeSmall" cx="0.5" cy="0.5" fx="0.25" fy="0.5">
-                <stop offset="0%" stop-color="purple"/>
-                <stop offset="50%" stop-color="rgba(255, 0, 0, 0.25)" />
-                <stop offset="100%" stop-color="rgba(0, 0, 0, 0)"/>
+    <svg
+        id="app"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <filter v-for="filter in filters" :id="filter.id">
+            <component :is="filter.type" in="SourceGraphic">
                 <animate
+                    v-if="filter.animation"
                     attributeType="XML"
-                    calcMode="paced"
-                    values="0.75;0.25;0.75"
-                    attributeName="fx"
-                    dur="10s"
                     repeatCount="indefinite"
+                    v-bind="filter.animation"
                 />
-                <animate
-                    attributeType="XML"
-                    calcMode="paced"
-                    values="0.5;0.75;0.25;0.5"
-                    attributeName="fy"
-                    dur="10s"
-                    repeatCount="indefinite"
-                />
-            </radialGradient>
-            <radialGradient id="ShadeLarge" cx="0.5" cy="0.5" fx="0.25" fy="0.5">
-                <stop offset="0%" stop-color="rgb(63, 0, 255)"/>
-                <stop offset="50%" stop-color="rgba(0, 0, 255, 0.25)" />
-                <stop offset="100%" stop-color="rgba(0, 0, 0, 0)"/>
-                <animate
-                    attributeType="XML"
-                    calcMode="linear"
-                    values="0.25;0.75;0.25"
-                    attributeName="fx"
-                    dur="10s"
-                    repeatCount="indefinite"
-                />
-                <animate
-                    attributeType="XML"
-                    calcMode="linear"
-                    values="0.5;0.25;0.75;0.5"
-                    attributeName="fy"
-                    dur="10s"
-                    repeatCount="indefinite"
-                />
-            </radialGradient>
-        </defs>
-        <path id="PathForSmall" fill="none" d="M 15 50 A 35 20 0 1 1 15 51 Z" />
-        <path id="PathForLarge" fill="none" d="M 25 50 A 10 5 0 1 1 25 51 Z" />
-        <circle cx="" cy="" r="5" fill="url(#ShadeSmall)">
-            <animateMotion dur="10s" repeatCount="indefinite">
-                <mpath xlink:href="#PathForSmall" />
-            </animateMotion>
-        </circle>
-        <circle cx="" cy="" r="15" fill="url(#ShadeLarge)">
-            <animateMotion dur="24s" repeatCount="indefinite">
-                <mpath xlink:href="#PathForLarge" />
-            </animateMotion>
-        </circle>
+            </component>
+        </filter>
+        <rect
+            v-for="rect in rects"
+            :x="rect.x"
+            :y="rect.y"
+            width="0"
+            height="5"
+            :filter="rect.filterId"
+        >
+            <animate
+                attributeType="XML"
+                attributeName="width"
+                :values="rect.values"
+                :dur="rect.dur"
+                repeatCount="indefinite"
+            />
+        </rect>
     </svg>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+     var numRects = 100;
+
+     var filters = [];
+     var rects = [];
+
+     filters.push({
+         id: "filter0",
+         type: "feGaussianBlur",
+         animation: { attributeName: "stdDeviation", values: "0;0.5;0", dur: "10s" },
+     });
+     filters.push({
+         id: "filter1",
+         type: "feGaussianBlur",
+         animation: { attributeName: "stdDeviation", values: "0.25;0;0.25", dur: "5s" },
+     });
+     filters.push({
+         id: "filter2",
+         type: "feGaussianBlur",
+         animation: { attributeName: "stdDeviation", values: "0.25;0.1;0.25", dur: "15s" },
+     });
+     filters.push({
+         id: "filter3",
+         type: "feGaussianBlur",
+         animation: { attributeName: "stdDeviation", values: "0.5;0.25;0.75;0.5", dur: "5s" },
+     });
+
+     for (var i = 0; i < numRects; i++) {
+         var keyFrames = [];
+         var numKeyFrames = Math.floor(Math.random() * 4) + 1;
+
+         for (var j = 0; j < numKeyFrames; j++) {
+             keyFrames.push(Math.max(Math.random() - 0.5, 0));
+         }
+
+         var values = keyFrames.join(";") + ";" + keyFrames[0];
+
+         rects.push({
+             dur: (Math.random() * 10 + 5).toString() + "s",
+             filterId: "url(#filter" + i % filters.length + ")",
+             values,
+             x: Math.random() * 90 + 5,
+             y: Math.random() * 90 + 5,
+         });
+     }
+
+     var app = new Vue({ el: "#app", data: { filters, rects } });
+    </script>
   </body>
 </html>
