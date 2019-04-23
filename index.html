@@ -8,48 +8,115 @@
     <meta name="keywords" content="website,cool,nice,fancy,beautiful" />
     <meta name="author" content="George Kaplan" />
     <style>
-      body {
-        background-color: black;
-        padding: 0;
-        margin: 0;
-      }
-      .navbar {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      .nav-item {
-        display: inline;
-      }
-      a {
-        color: #ddd;
-      }
-      .nav-link {
-        text-decoration: none;
-        padding: 10px;
-        text-align: center;
-      }
+     html, body {
+         width: 100%;
+         height: 100%;
+         margin: 0;
+         padding: 0;
+     }
+     body {
+         background-color: black;
+         display: flex;
+         flex-direction: column;
+         overflow: hidden;
+         font-size: 12pt;
+     }
+     ul {
+         list-style: none;
+         margin: 0.25em 0 1em;
+         padding: 0;
+         font-family: monospace;
+     }
+     li {
+         display: inline;
+     }
+     a {
+         text-decoration: none;
+         padding: 0 0.5em;
+         text-align: center;
+         color: #ddd;
+     }
+     a:hover {
+         color: #fff;
+     }
+     body > svg {
+         flex: 1;
+         color: #ddd;
+         fill: #ddd;
+     }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
-    <script src="scenes/180317_a.js"></script>
   </head>
   <body>
-    <div class="header">
-      <ul class="navbar">
-        <li class="nav-item">
-          <a class="nav-link" href="resume/Kaplan_George_resume.pdf">resume</a>
+    <header>
+      <ul role="menubar">
+        <li role="menuitem">
+          <a href="resume/Kaplan_George_resume.pdf">resume</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/g-s-k">github</a>
+        <li role="menuitem">
+          <a href="https://github.com/g-s-k">github</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://www.linkedin.com/in/gskaplan">linkedin</a>
+        <li role="menuitem">
+          <a href="https://www.linkedin.com/in/gskaplan">linkedin</a>
         </li>
       </ul>
-    </div>
-    <script>
-      document.documentElement.style.overflow = "hidden";
-      document.body.scroll = "no";
-    </script>
+    </header>
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+            <radialGradient id="ShadeSmall" cx="0.5" cy="0.5" fx="0.25" fy="0.5">
+                <stop offset="0%" stop-color="purple"/>
+                <stop offset="50%" stop-color="rgba(255, 0, 0, 0.25)" />
+                <stop offset="100%" stop-color="rgba(0, 0, 0, 0)"/>
+                <animate
+                    attributeType="XML"
+                    calcMode="paced"
+                    values="0.75;0.25;0.75"
+                    attributeName="fx"
+                    dur="10s"
+                    repeatCount="indefinite"
+                />
+                <animate
+                    attributeType="XML"
+                    calcMode="paced"
+                    values="0.5;0.75;0.25;0.5"
+                    attributeName="fy"
+                    dur="10s"
+                    repeatCount="indefinite"
+                />
+            </radialGradient>
+            <radialGradient id="ShadeLarge" cx="0.5" cy="0.5" fx="0.25" fy="0.5">
+                <stop offset="0%" stop-color="rgb(63, 0, 255)"/>
+                <stop offset="50%" stop-color="rgba(0, 0, 255, 0.25)" />
+                <stop offset="100%" stop-color="rgba(0, 0, 0, 0)"/>
+                <animate
+                    attributeType="XML"
+                    calcMode="linear"
+                    values="0.25;0.75;0.25"
+                    attributeName="fx"
+                    dur="10s"
+                    repeatCount="indefinite"
+                />
+                <animate
+                    attributeType="XML"
+                    calcMode="linear"
+                    values="0.5;0.25;0.75;0.5"
+                    attributeName="fy"
+                    dur="10s"
+                    repeatCount="indefinite"
+                />
+            </radialGradient>
+        </defs>
+        <path id="PathForSmall" fill="none" d="M 15 50 A 35 20 0 1 1 15 51 Z" />
+        <path id="PathForLarge" fill="none" d="M 25 50 A 10 5 0 1 1 25 51 Z" />
+        <circle cx="" cy="" r="5" fill="url(#ShadeSmall)">
+            <animateMotion dur="10s" repeatCount="indefinite">
+                <mpath xlink:href="#PathForSmall" />
+            </animateMotion>
+        </circle>
+        <circle cx="" cy="" r="15" fill="url(#ShadeLarge)">
+            <animateMotion dur="24s" repeatCount="indefinite">
+                <mpath xlink:href="#PathForLarge" />
+            </animateMotion>
+        </circle>
+    </svg>
   </body>
 </html>
