@@ -8,48 +8,138 @@
     <meta name="keywords" content="website,cool,nice,fancy,beautiful" />
     <meta name="author" content="George Kaplan" />
     <style>
-      body {
-        background-color: black;
-        padding: 0;
-        margin: 0;
-      }
-      .navbar {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      .nav-item {
-        display: inline;
-      }
-      a {
-        color: #ddd;
-      }
-      .nav-link {
-        text-decoration: none;
-        padding: 10px;
-        text-align: center;
-      }
+     html, body {
+         width: 100%;
+         height: 100%;
+         margin: 0;
+         padding: 0;
+     }
+     body {
+         background-image: radial-gradient(farthest-corner at 80% 80%, #101017, #101010, black);
+         display: flex;
+         flex-direction: column;
+         overflow: hidden;
+         font-size: 12pt;
+         color: #ddd;
+     }
+     ul {
+         list-style: none;
+         margin: 0.25em 0 1em;
+         padding: 0;
+         font-family: monospace;
+     }
+     li {
+         display: inline;
+     }
+     a {
+         text-decoration: none;
+         padding: 0 0.5em;
+         text-align: center;
+         color: #ddd;
+     }
+     a:hover {
+         color: #fff;
+     }
+     body > svg {
+         flex: 1;
+         fill: #ddd;
+     }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
-    <script src="scenes/180317_a.js"></script>
   </head>
   <body>
-    <div class="header">
-      <ul class="navbar">
-        <li class="nav-item">
-          <a class="nav-link" href="resume/Kaplan_George_resume.pdf">resume</a>
+    <header>
+      <ul role="menubar">
+        <li role="menuitem">
+          <a href="resume/Kaplan_George_resume.pdf">resume</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/g-s-k">github</a>
+        <li role="menuitem">
+          <a href="https://github.com/g-s-k">github</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://www.linkedin.com/in/gskaplan">linkedin</a>
+        <li role="menuitem">
+          <a href="https://www.linkedin.com/in/gskaplan">linkedin</a>
         </li>
       </ul>
-    </div>
+    </header>
+    <svg
+        id="app"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <filter v-for="filter in filters" :id="filter.id">
+            <component :is="filter.type" in="SourceGraphic">
+                <animate
+                    v-if="filter.animation"
+                    attributeType="XML"
+                    repeatCount="indefinite"
+                    v-bind="filter.animation"
+                />
+            </component>
+        </filter>
+        <rect
+            v-for="rect in rects"
+            :x="rect.x"
+            :y="rect.y"
+            width="0"
+            height="5"
+            :filter="rect.filterId"
+        >
+            <animate
+                attributeType="XML"
+                attributeName="width"
+                :values="rect.values"
+                :dur="rect.dur"
+                repeatCount="indefinite"
+            />
+        </rect>
+    </svg>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script>
-      document.documentElement.style.overflow = "hidden";
-      document.body.scroll = "no";
+     var numRects = 100;
+
+     var filters = [];
+     var rects = [];
+
+     filters.push({
+         id: "filter0",
+         type: "feGaussianBlur",
+         animation: { attributeName: "stdDeviation", values: "0;0.5;0", dur: "10s" },
+     });
+     filters.push({
+         id: "filter1",
+         type: "feGaussianBlur",
+         animation: { attributeName: "stdDeviation", values: "0.25;0;0.25", dur: "5s" },
+     });
+     filters.push({
+         id: "filter2",
+         type: "feGaussianBlur",
+         animation: { attributeName: "stdDeviation", values: "0.25;0.1;0.25", dur: "15s" },
+     });
+     filters.push({
+         id: "filter3",
+         type: "feGaussianBlur",
+         animation: { attributeName: "stdDeviation", values: "0.5;0.25;0.75;0.5", dur: "5s" },
+     });
+
+     for (var i = 0; i < numRects; i++) {
+         var keyFrames = [];
+         var numKeyFrames = Math.floor(Math.random() * 4) + 1;
+
+         for (var j = 0; j < numKeyFrames; j++) {
+             keyFrames.push(Math.max(Math.random() - 0.5, 0));
+         }
+
+         var values = keyFrames.join(";") + ";" + keyFrames[0];
+
+         rects.push({
+             dur: (Math.random() * 10 + 5).toString() + "s",
+             filterId: "url(#filter" + i % filters.length + ")",
+             values,
+             x: Math.random() * 90 + 5,
+             y: Math.random() * 90 + 5,
+         });
+     }
+
+     var app = new Vue({ el: "#app", data: { filters, rects } });
     </script>
   </body>
 </html>
