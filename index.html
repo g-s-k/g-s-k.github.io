@@ -31,6 +31,29 @@
      li {
          display: inline;
      }
+     .dropdown {
+         display: inline-block;
+         position: relative;
+         cursor: default;
+     }
+     .dropdown ul {
+         display: none;
+         margin-top: 0;
+         padding-top: 0.25em;
+         position: absolute;
+         min-width: 10em;
+     }
+     .dropdown ul li:first-child {
+         padding-top: 0.25em;
+     }
+     .dropdown ul li {
+         display: block;
+         padding-bottom: 0.25em;
+         background-color: rgba(255, 255, 255, 0.1);
+     }
+     .dropdown:hover ul {
+         display: block;
+     }
      a {
          text-decoration: none;
          padding: 0 0.5em;
@@ -47,7 +70,7 @@
     </style>
   </head>
   <body>
-    <header>
+    <nav>
       <ul role="menubar">
         <li role="menuitem">
           <a href="resume/Kaplan_George_resume.pdf">resume</a>
@@ -58,8 +81,19 @@
         <li role="menuitem">
           <a href="https://www.linkedin.com/in/gskaplan">linkedin</a>
         </li>
+        <li role="menuitem" class="dropdown">
+            projects
+            <ul role="menu">
+                <li role="menuitem">
+                    <a href="/parsley">parsley scheme</a>
+                </li>
+                <li role="menitem">
+                    <a href="/pxsort">pixel sorting</a>
+                </li>
+            </ul>
+        </li>
       </ul>
-    </header>
+    </nav>
     <svg
         id="app"
         viewBox="0 0 100 100"
