@@ -132,7 +132,7 @@
             />
         </rect>
     </svg>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
     <script>
      var numRects = 100;
 
@@ -179,7 +179,7 @@
          });
      }
 
-     var app = new Vue({ el: "#app", data: { filters, rects } });
+     Vue.createApp({ data: () => ({ filters, rects }) }).mount("#app");
     </script>
   </body>
 </html>
